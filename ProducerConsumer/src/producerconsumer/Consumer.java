@@ -5,24 +5,39 @@
  */
 package producerconsumer;
 
+import java.util.concurrent.BlockingQueue;
+
 /**
  *
  * @author Acer
  */
-public class Consumer extends Thread {
+public class Consumer implements Runnable {
 
-    SharedDataStructure sds;
+    private final BlockingQueue blockit;
+   
     long count;
 
+    public Consumer(BlockingQueue blockit){
+    this.blockit = blockit;
+    }
+    
     @Override
     public void run() {
-        while (sds.S2.iterator().hasNext()) {
-            long temp = sds.S2.iterator().next();
-            count += temp;
-            sds.S2.remove(sds.S2.get((int) temp));
-
-            System.out.println("" + count);
+        while (true) {
+            long temp = 0;
+             try {
+                 temp = (long) blockit.take();
+                
+            } catch (Exception e) {
+                 System.out.println("Couldnt retrive data from the queue"); 
+           }
+            count+= temp;
+            
+            
+            
+        }
+            
         }
 
     }
-}
+
