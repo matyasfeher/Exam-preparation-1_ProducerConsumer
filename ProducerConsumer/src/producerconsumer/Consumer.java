@@ -14,30 +14,27 @@ import java.util.concurrent.BlockingQueue;
 public class Consumer implements Runnable {
 
     private final BlockingQueue blockit;
-   
+
     long count;
 
-    public Consumer(BlockingQueue blockit){
-    this.blockit = blockit;
+    public Consumer(BlockingQueue blockit) {
+        this.blockit = blockit;
     }
-    
+
     @Override
     public void run() {
-        while (true) {
+        while (!blockit.isEmpty()) {
             long temp = 0;
-             try {
-                 temp = (long) blockit.take();
-                
-            } catch (Exception e) {
-                 System.out.println("Couldnt retrive data from the queue"); 
-           }
-            count+= temp;
-            
-            
-            
-        }
-            
-        }
+            try {
+                temp = (long) blockit.take();
 
+            } catch (Exception e) {
+                System.out.println("Couldnt retrive data from the queue");
+            }
+            count += temp;
+
+        }
+        System.out.println("" + count);
     }
 
+}
